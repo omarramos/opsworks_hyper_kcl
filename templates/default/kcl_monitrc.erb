@@ -1,0 +1,4 @@
+<% pid_file = "#{@deploy[:deploy_to]}/shared/pids/#{@application}_kcl.pid" %>
+check process <%= "#{@application}_kcl" %> with pidfile <%= pid_file %>
+start program = "/bin/su - <%= @deploy[:user] %> -c 'cd <%= @deploy[:deploy_to] %>/shared/scripts/ && RAILS_ENV=<%= @deploy[:rails_env] %> ./kcl.sh start'" with timeout 90 seconds
+stop program = "/bin/su - <%= @deploy[:user] %> -c 'cd <%= @deploy[:deploy_to] %>/shared/scripts/ && RAILS_ENV=<%= @deploy[:rails_env] %> ./kcl.sh stop'" with timeout 90 seconds

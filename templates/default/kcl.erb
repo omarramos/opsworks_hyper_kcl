@@ -1,0 +1,15 @@
+#!/bin/bash
+ export JAVA_HOME=/usr/
+ CLASSPATH=jars/*:./*:.
+
+ case $1 in
+    start)
+       echo $$ > <%= @deploy[:deploy_to] %>/shared/pids/<%= @application %>_kcl.pid;
+       exec 2>&1 java -cp ${CLASSPATH} com.amazonaws.services.kinesis.multilang.MultiLangDaemon ./kcl-<%= @deploy[:rails_env] %>.properties
+       ;;
+     stop)
+       kill `cat <%= @deploy[:deploy_to] %>/shared/pids/<%= @application %>_kcl.pid` ;;
+     *)
+       echo "usage: start_kcl {start|stop}" ;;
+ esac | tee /srv/www/hyper_on_rails/shared/log/kcl.log
+ exit 0
